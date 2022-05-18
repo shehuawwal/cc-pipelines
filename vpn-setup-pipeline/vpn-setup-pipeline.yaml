@@ -1,0 +1,27 @@
+---
+platform: linux
+
+jobs:
+- name: vpn-connection
+  plan:
+  - task: setup-vpn
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: ubuntu}
+      inputs:
+      - name: vpn
+      outputs:
+      - name: abuja-vpn
+      run:
+          path: sh
+          args:
+          - -exec
+          - |
+            ls
+            apt install openvpn -y
+            cd abuja-vpn
+            openvpn ((vpn)) --auth-user-pass creds.txt &
+            ping ((server-ip))
+

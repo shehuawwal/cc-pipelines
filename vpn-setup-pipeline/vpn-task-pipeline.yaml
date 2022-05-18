@@ -1,0 +1,26 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source: {repository: ubuntu}
+
+inputs:
+  - name: vpn
+    path: abuja-vpn
+
+outputs:
+  - name: abuja-vpn
+run:
+  path: sh
+  args:
+  - -exec
+  - |
+    ls
+    RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
+    apt update
+    apt install openvpn iputils-ping -y
+    ping -c 5 ((server-ip))
+    cd abuja-vpn
+    echo "Connect Abuja VPN"
+    openvpn ((vpn)) --auth-user-pass creds.txt &
+    ping -c 5 ((server-ip))
