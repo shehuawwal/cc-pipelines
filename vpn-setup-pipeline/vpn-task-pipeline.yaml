@@ -24,3 +24,5 @@ run:
     echo "Connect Abuja VPN"
     openvpn ((vpn)) --auth-user-pass creds.txt &
     ping -c 5 ((server-ip))
+    echo "done"
+    echo "Featuring khadwaltest"
